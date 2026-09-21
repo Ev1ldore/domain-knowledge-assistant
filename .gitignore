@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+data/
+models/
+*.log
+.local/
+.demo/
+.test/
+.001_evidence.*
+.001_evidence
+.local

@@ -1,0 +1,24 @@
+# 独立应用和数据卷。不会启动/修改原项目的 MySQL、Redis、Milvus。
+services:
+  assistant:
+    build: .
+    ports:
+      - "127.0.0.1:${APP_PORT:-8080}:8080"
+    environment:
+      HOST: 0.0.0.0
+      KB_ADMIN_USERNAME: ${KB_ADMIN_USERNAME:-admin}
+      KB_ADMIN_PASSWORD: ${KB_ADMIN_PASSWORD:?请通过环境变量设置管理员密码}
+      LLM_BASE_URL: ${LLM_BASE_URL:-http://host.docker.internal:11434/v1}
+      LLM_MODEL: ${LLM_MODEL:-qcwind/qwen3-8b-instruct-Q4-K-M:latest}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-http://host.docker.internal:11434/v1}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-bge-m3:latest}
+      EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-}
+      RERANKER_MODEL: ${RERANKER_MODEL:-BAAI/bge-reranker-large}
+      RERANKER_DEVICE: cpu
+    volumes:
+      - assistant_data:/app/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+volumes:
+  assistant_data:

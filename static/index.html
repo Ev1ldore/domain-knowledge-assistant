@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="围绕你的知识资料提问，阅读回答并核对每一条引用。">
+  <meta name="theme-color" content="#f5f6f3">
+  <title>知识问答助手</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css?v=3">
+</head>
+<body>
+<a class="skip-link" href="#chatInput">跳至问题输入</a>
+<svg class="icon-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 3v-3H3V6a2 2 0 0 1 2-2Z"/><path d="M8 9h8M8 13h5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5v15M3 4h5a4 4 0 0 1 4 2 4 4 0 0 1 4-2h5v15h-5a4 4 0 0 0-4 2 4 4 0 0 0-4-2H3Z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M12 19V5m-6 6 6-6 6 6"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H5v18h14V8l-5-5Z"/><path d="M14 3v6h5M8 13h8M8 17h5"/></symbol>
+  <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M14 4v16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7M14 10v7"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 15v6h16v-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 8a8 8 0 1 0 0 8M20 3v5h-5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 8V3H3v13h5"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4v16"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+</defs></svg>
+<div class="app-shell" id="appShell">
+  <button class="sidebar-scrim" id="sidebarScrim" aria-label="关闭会话侧栏" hidden></button>
+  <aside class="sidebar" id="sidebar" aria-label="工作区导航">
+    <a class="brand" href="#chat" id="brandLink"><span><strong id="assistantName">知识问答助手</strong></span></a>
+    <button class="new-session-btn" id="newSessionBtn"><svg class="icon"><use href="#i-plus"/></svg><span>新会话</span><kbd>N</kbd></button>
+    <nav class="workspace-nav" aria-label="页面"><button class="nav-item active" id="chatNav" aria-current="page"><svg class="icon"><use href="#i-chat"/></svg>问答</button><button class="nav-item" id="kbBtn"><svg class="icon"><use href="#i-book"/></svg>知识库管理<svg class="icon nav-end"><use href="#i-chevron"/></svg></button></nav>
+    <div class="history-heading"><h2>最近会话</h2><span id="sessionCount">0</span></div>
+    <label class="search-control"><svg class="icon"><use href="#i-search"/></svg><input id="searchBox" placeholder="搜索会话" aria-label="搜索会话" autocomplete="off"><kbd>⌘ K</kbd></label>
+    <nav class="history-list" id="historyList" aria-label="历史会话"></nav>
+    <div class="sidebar-bottom"><div class="library-status"><span class="status-dot" id="statusDot"></span><div><strong id="knowledgeStatus">正在连接知识库</strong><small id="knowledgeCounts">读取资料状态…</small></div></div><div class="sidebar-footer"><button class="icon-button" id="themeToggle" aria-label="切换深浅主题" title="切换深浅主题"><svg class="icon"><use href="#i-theme"/></svg></button></div></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><div class="breadcrumbs"><button class="icon-button mobile-menu" id="menuBtn" aria-label="打开会话侧栏"><svg class="icon"><use href="#i-menu"/></svg></button><strong id="threadTitle">新会话</strong></div><div class="topbar-actions"><button class="icon-button" id="clearHistoryBtn" title="清空当前会话" aria-label="清空当前会话"><svg class="icon"><use href="#i-trash"/></svg></button><button class="subtle-button" id="sourcesToggle" aria-expanded="false" aria-controls="evidencePanel"><svg class="icon"><use href="#i-panel"/></svg><span>参考来源</span><span id="sourceCount" class="count-badge">0</span></button></div></header>
+    <div class="connection-banner" id="connectionBanner" role="status" hidden></div>
+    <section class="chat-view" id="chatView" aria-label="知识问答">
+      <div class="conversation-column">
+        <div class="chat-scroll" id="chatHistory" tabindex="0" aria-label="对话记录">
+          <section class="welcome" id="welcomeView" aria-label="新会话"><div class="quick-replies" id="quickReplies"></div><p class="welcome-library" id="welcomeLibrary"></p></section>
+        </div>
+        <div class="composer-dock"><details class="query-options"><summary>适用范围与日期（可选）</summary><div class="scope-fields"><label>地区<input id="queryRegion" placeholder="如：上海"></label><label>产品<input id="queryProduct" placeholder="产品名称"></label><label>生效日期<input id="queryDate" type="date"></label></div></details><div class="composer" id="composer"><label class="sr-only" for="chatInput">问题</label><textarea id="chatInput" placeholder="输入问题…" rows="2" maxlength="2000" aria-describedby="composerHint"></textarea><div class="composer-bottom"><div class="composer-controls"><span id="charCount" class="char-count">0 / 2000</span><button class="send-btn" id="sendBtn" aria-label="发送问题" disabled><svg class="icon"><use href="#i-arrow"/></svg></button></div></div></div><div class="composer-footnote"><span id="answerStatus" role="status"></span><span id="composerHint">Enter 发送 · Shift + Enter 换行</span></div></div>
+      </div>
+      <aside class="evidence-panel" id="evidencePanel" aria-label="参考来源" hidden><header class="panel-header"><div><h2>参考来源 <span id="evidenceCount">0</span></h2></div><button class="icon-button" id="sourcesClose" aria-label="关闭参考来源"><svg class="icon"><use href="#i-close"/></svg></button></header><p class="panel-description" id="evidenceDescription">选中一条回答，查看它引用的资料。</p><div id="evidenceList" class="evidence-list"></div></aside>
+    </section>
+    <section class="knowledge-view" id="knowledgeView" hidden aria-labelledby="kbTitle">
+      <div class="knowledge-heading"><div><h1 id="kbTitle">知识库</h1></div><button class="subtle-button" id="backToChat"><svg class="icon"><use href="#i-chat"/></svg>返回问答</button></div>
+      <div class="knowledge-overview"><div><span id="documentCount">0</span><p>可检索文档</p></div><div><span id="faqCount">0</span><p>常见问答</p></div><div><span id="indexingCount">0</span><p>正在索引</p></div><div><span id="failedCount">0</span><p>需要处理</p></div></div>
+      <div class="notice" id="kbMsg" role="status" hidden></div>
+      <div class="admin-login" id="kbLoginBox"><div class="login-context"><h2>管理员登录</h2></div><form id="loginForm" class="login-form"><label for="kbUsername">管理员账号</label><input id="kbUsername" name="username" value="admin" autocomplete="username" required maxlength="100"><label for="kbPassword">密码</label><input id="kbPassword" name="password" type="password" autocomplete="current-password" placeholder="输入管理员密码" required maxlength="256"><button class="primary-button" id="kbLoginBtn" type="submit">登录<svg class="icon"><use href="#i-chevron"/></svg></button><p>使用部署时设置的凭据，系统不提供默认密码。</p></form></div>
+      <div id="kbPanelBox" hidden>
+        <section class="evidence-review"><h2>证据与冲突复核</h2><p>修正适用范围、权限与明确替代关系，或记录有依据的裁决。原资料与操作记录保留。</p><button id="reviewRefresh" class="subtle-button">加载证据与复核记录</button><div id="reviewRecords"></div></section><div class="management-toolbar"><p><span class="status-dot"></span>已登录为管理员</p><button class="text-button" id="kbLogoutBtn">退出登录</button></div>
+        <div class="import-grid"><section class="import-block"><div class="import-heading"><div><h2>知识文档</h2></div></div><label class="file-drop" id="documentDrop" for="kbFile"><svg class="icon"><use href="#i-upload"/></svg><strong id="documentFileLabel">点击选择或拖入文档</strong><small>MD、TXT、PDF、DOCX、PPTX、CSV</small><input class="sr-only" type="file" id="kbFile" accept=".md,.txt,.pdf,.docx,.pptx,.csv" aria-label="选择知识文档"></label><div class="import-bottom"><span>上传后需要等待解析与索引</span><button class="primary-button small" id="kbUploadBtn" disabled>上传文档</button></div></section><section class="import-block"><div class="import-heading"><div><h2>常见问答</h2></div></div><label class="file-drop" id="faqDrop" for="faqFile"><svg class="icon"><use href="#i-upload"/></svg><strong id="faqFileLabel">点击选择或拖入 FAQ</strong><small>JSON、CSV · question / answer 字段</small><input class="sr-only" type="file" id="faqFile" accept=".json,.csv" aria-label="选择 FAQ 文件"></label><div class="import-bottom"><button class="text-button" id="downloadFaqExample">下载格式示例</button><button class="primary-button small" id="faqImportBtn" disabled>导入常见问答</button></div></section></div>
+        <section class="file-section"><div class="section-heading"><div><h2>文档与索引</h2><p>仅“可检索”的文档会用于回答。</p></div><button class="subtle-button" id="kbRefreshBtn"><svg class="icon"><use href="#i-refresh"/></svg>刷新状态</button></div><div class="file-table-wrap"><table class="file-table"><thead><tr><th>文档名称</th><th>大小</th><th>片段</th><th>索引状态</th><th><span class="sr-only">操作</span></th></tr></thead><tbody id="kbFileList"></tbody></table><div class="files-empty" id="filesEmpty" hidden><svg class="icon"><use href="#i-file"/></svg><h3>还没有知识文档</h3><p>从上方上传第一份资料，索引完成后即可提问。</p></div></div></section>
+      </div>
+    </section>
+  </div>
+</div>
+<dialog id="confirmDialog" class="confirm-dialog" aria-labelledby="confirmTitle" aria-describedby="confirmDescription"><form method="dialog"><div class="dialog-icon"><svg class="icon"><use href="#i-trash"/></svg></div><h2 id="confirmTitle">确认操作</h2><p id="confirmDescription"></p><div class="dialog-actions"><button class="subtle-button" value="cancel">取消</button><button class="danger-button" id="confirmAction" value="confirm">确认</button></div></form></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="/static/app.js?v=4" defer></script>
+</body></html>

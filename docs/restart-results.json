@@ -1,0 +1,18 @@
+{
+  "kind": "real_process_restart",
+  "passed": true,
+  "turns_before": 7,
+  "turns_after": 7,
+  "identical_history": true,
+  "status": {
+    "files": 3,
+    "indexed_files": 3,
+    "indexing_files": 0,
+    "failed_files": 0,
+    "faq_count": 2,
+    "chunk_count": 9,
+    "model_check": "not_performed_by_this_endpoint",
+    "note": "索引状态不代表模型服务健康；需真实问答验证",
+    "reranker": "cross_encoder"
+  }
+}

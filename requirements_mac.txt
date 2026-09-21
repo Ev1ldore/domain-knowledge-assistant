@@ -1,0 +1,2 @@
+-r requirements.txt
+# Apple Silicon 使用原生 arm64 Python；推理设备默认 cpu，可自行验证 mps。

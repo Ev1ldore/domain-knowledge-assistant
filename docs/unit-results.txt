@@ -1,0 +1,25 @@
+test_atomic_faq_import (test_contracts.Contracts) ... ok
+test_auth_all_management (test_contracts.Contracts) ... ok
+test_delete_history_and_no_cache (test_contracts.Contracts) ... ok
+test_empty_faq_and_history (test_contracts.Contracts) ... ok
+test_file_collision_and_path (test_contracts.Contracts) ... ok
+test_followup_does_not_skip_unsuccessful_topic (test_contracts.Contracts) ... ok
+test_greeting_only_full_question (test_contracts.Contracts) ... ok
+test_input_and_removed_filter (test_contracts.Contracts) ... ok
+test_interrupted_index_requires_explicit_rebuild (test_contracts.Contracts) ... ok
+test_model_failure_is_not_saved (test_contracts.Contracts) ... Answer failed (RuntimeError)
+ok
+test_no_default_password (test_contracts.Contracts) ... ok
+test_no_fabricated_citations (test_contracts.Contracts) ... Answer failed (ValueError)
+ok
+test_pdf_page_metadata (test_contracts.Contracts) ... ok
+test_revision_guards_inflight_generation (test_contracts.Contracts) ... Answer failed (RuntimeError)
+ok
+test_sessions_context_and_storage_restart (test_contracts.Contracts) ... ok
+test_stream_contract (test_contracts.Contracts) ... ok
+test_unauthorized_websocket_origin (test_contracts.Contracts) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.479s
+
+OK

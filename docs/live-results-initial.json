@@ -1,0 +1,301 @@
+{
+  "started": "2026-09-21 11:06:15 +0800",
+  "kind": "real_local_e2e",
+  "url": "http://127.0.0.1:8080",
+  "checks": [
+    {
+      "name": "01 startup_and_empty_store",
+      "passed": true,
+      "seconds": 0.01,
+      "evidence": {
+        "files": 0,
+        "indexed_files": 0,
+        "indexing_files": 0,
+        "failed_files": 0,
+        "faq_count": 0,
+        "chunk_count": 0,
+        "model_verified": false,
+        "note": "索引状态不代表模型服务健康；需真实问答验证",
+        "reranker": "cross_encoder"
+      }
+    },
+    {
+      "name": "empty_knowledge",
+      "passed": true,
+      "seconds": 0.01,
+      "evidence": {
+        "status": "empty",
+        "answer": "知识库尚未导入可检索资料，请管理员上传知识文档或导入常见问答。",
+        "sources": [],
+        "session_id": "7144d222-b920-46ec-ac85-8bbbd6cc7480",
+        "knowledge_revision": 0,
+        "answer_mode": "verified_quotes"
+      }
+    },
+    {
+      "name": "09 unauthenticated_management_rejected",
+      "passed": true,
+      "seconds": 0.0,
+      "evidence": {
+        "GET /api/kb/files": 401,
+        "POST /api/kb/upload": 401,
+        "POST /api/kb/faq/import": 401,
+        "DELETE /api/kb/files/missing": 401,
+        "POST /api/kb/files/missing/rebuild": 401
+      }
+    },
+    {
+      "name": "02 exact_faq",
+      "passed": true,
+      "seconds": 0.01,
+      "evidence": {
+        "status": "faq",
+        "answer": "【虚构演示资料】星盒是用于整理本地文本笔记的虚构工具，仅用于测试本问答框架。",
+        "sources": [
+          {
+            "type": "faq",
+            "id": "d5f56e0e-40be-488e-b7d7-bb86ae38360f",
+            "title": "星盒工具是什么？"
+          }
+        ],
+        "session_id": "7144d222-b920-46ec-ac85-8bbbd6cc7480",
+        "knowledge_revision": 1,
+        "answer_mode": "verified_quotes"
+      }
+    },
+    {
+      "name": "07 upload_and_real_embedding_index",
+      "passed": true,
+      "seconds": 16.43,
+      "evidence": [
+        {
+          "file": {
+            "id": "9f7b7db2-a2ae-48a2-80f0-dd03ab62c584",
+            "file_name": "星盒安装说明.md",
+            "size": 605,
+            "status": "ready",
+            "error": "",
+            "created": 1789959975.389013,
+            "chunk_count": 3
+          },
+          "observed_states": [
+            "uploaded",
+            "indexing",
+            "ready"
+          ]
+        },
+        {
+          "file": {
+            "id": "0fd0b3be-63dd-470d-a5a7-a478913e4a24",
+            "file_name": "星盒功能说明.md",
+            "size": 676,
+            "status": "ready",
+            "error": "",
+            "created": 1789959990.781652,
+            "chunk_count": 3
+          },
+          "observed_states": [
+            "uploaded",
+            "indexing",
+            "ready"
+          ]
+        },
+        {
+          "file": {
+            "id": "fbf4396e-e569-41d8-b439-363bf6fa3806",
+            "file_name": "星盒故障处理.md",
+            "size": 613,
+            "status": "ready",
+            "error": "",
+            "created": 1789959991.3022652,
+            "chunk_count": 3
+          },
+          "observed_states": [
+            "uploaded",
+            "indexing",
+            "ready"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 real_hybrid_rerank_model_answer",
+      "passed": true,
+      "seconds": 33.23,
+      "evidence": {
+        "status": "answered",
+        "answer": "根据已导入资料：\n\n## 星盒 E17 错误\n星盒出现 E17 表示本地索引锁冲突。\n处理星盒 E17 时，先停止正在运行的导入任务，再执行 `starbox index unlock`，最后重新执行导入。\n如果 E17 仍然出现，请保存 `logs/index.log` 并记录正在导入的文件名，以便进一步排查。不要删除笔记原文。 [1]",
+        "sources": [
+          {
+            "type": "document",
+            "id": "c0f4c990b7533a96258f5172",
+            "file_id": "fbf4396e-e569-41d8-b439-363bf6fa3806",
+            "file_name": "星盒故障处理.md",
+            "section": "星盒 E17 错误",
+            "quote": "## 星盒 E17 错误\n星盒出现 E17 表示本地索引锁冲突。\n处理星盒 E17 时，先停止正在运行的导入任务，再执行 `starbox index unlock`，最后重新执行导入。\n如果 E17 仍然出现，请保存 `logs/index.log` 并记录正在导入的文件名，以便进一步排查。不要删除笔记原文。",
+            "score": 0.9987
+          }
+        ],
+        "retrieval_query": "星盒出现 E17 应该怎么处理？",
+        "retrieval_mode": "dense_bm25_rrf",
+        "reranker": "cross_encoder",
+        "session_id": "7144d222-b920-46ec-ac85-8bbbd6cc7480",
+        "knowledge_revision": 7,
+        "answer_mode": "verified_quotes"
+      }
+    },
+    {
+      "name": "04 unsupported_question",
+      "passed": true,
+      "seconds": 5.79,
+      "evidence": {
+        "status": "insufficient",
+        "answer": "现有资料不足，无法据此回答这个问题。请补充相关资料，或说明具体对象和使用场景。",
+        "sources": [],
+        "session_id": "7144d222-b920-46ec-ac85-8bbbd6cc7480",
+        "knowledge_revision": 7,
+        "answer_mode": "verified_quotes"
+      }
+    },
+    {
+      "name": "clarification",
+      "passed": true,
+      "seconds": 30.38,
+      "evidence": {
+        "status": "clarify",
+        "answer": "现有信息不足以确定你的问题。请补充具体对象、版本、使用环境或完整错误提示。",
+        "sources": [],
+        "session_id": "847c314c-d21a-43d3-b6f9-fcf4d778abb4",
+        "knowledge_revision": 7,
+        "answer_mode": "verified_quotes"
+      }
+    },
+    {
+      "name": "05 contextual_followup",
+      "passed": false,
+      "seconds": 30.56,
+      "error": "{'status': 'insufficient', 'answer': '现有资料不足，无法据此回答这个问题。请补充相关资料，或说明具体对象和使用场景。', 'sources': [], 'session_id': '7144d222-b920-46ec-ac85-8bbbd6cc7480', 'knowledge_revision': 7, 'answer_mode': 'verified_quotes'}"
+    },
+    {
+      "name": "10 session_isolation",
+      "passed": true,
+      "seconds": 0.08,
+      "evidence": {
+        "status": "clarify",
+        "answer": "现有信息不足以确定你的问题。请补充具体对象、版本、使用环境或完整错误提示。",
+        "sources": [],
+        "session_id": "733d91a8-969d-458d-a330-4823d70814b0",
+        "knowledge_revision": 7,
+        "answer_mode": "verified_quotes"
+      }
+    },
+    {
+      "name": "06 history_api_persistence",
+      "passed": true,
+      "seconds": 0.18,
+      "evidence": {
+        "session_history_count": 5,
+        "other_history_count": 1
+      }
+    },
+    {
+      "name": "websocket_validated_stream",
+      "passed": true,
+      "seconds": 54.98,
+      "evidence": {
+        "result": {
+          "type": "end",
+          "status": "answered",
+          "answer": "根据已导入资料：\n\n星盒 2.4 每次最多导入 12 个文件，单个文件大小上限为 4 MB。 [1]",
+          "sources": [
+            {
+              "type": "document",
+              "id": "8c44114fd33699e855f4273f",
+              "file_id": "0fd0b3be-63dd-470d-a5a7-a478913e4a24",
+              "file_name": "星盒功能说明.md",
+              "section": "星盒导入",
+              "quote": "星盒 2.4 每次最多导入 12 个文件，单个文件大小上限为 4 MB。",
+              "score": 0.9998
+            }
+          ],
+          "retrieval_query": "星盒 2.4 最多导入几个文件？",
+          "retrieval_mode": "dense_bm25_rrf",
+          "reranker": "cross_encoder",
+          "session_id": "847c314c-d21a-43d3-b6f9-fcf4d778abb4",
+          "knowledge_revision": 7,
+          "answer_mode": "verified_quotes"
+        },
+        "events": [
+          "start",
+          "status",
+          "meta",
+          "token",
+          "token",
+          "token",
+          "end"
+        ]
+      }
+    },
+    {
+      "name": "08 deletion_no_stale_answer",
+      "passed": true,
+      "seconds": 82.91,
+      "evidence": {
+        "before": {
+          "status": "answered",
+          "answer": "根据已导入资料：\n\n银栈演示工具的恢复口令是 ZX-50784225。此口令是虚构测试数据，不是真实凭据。 [1]",
+          "sources": [
+            {
+              "type": "document",
+              "id": "e42ba5444aecf855c994e8ce",
+              "file_id": "889cbb6f-349a-403a-bbc9-1f7ab048b8ef",
+              "file_name": "temporary-delete-test.md",
+              "section": "独立删除验收",
+              "quote": "银栈演示工具的恢复口令是 ZX-50784225。此口令是虚构测试数据，不是真实凭据。",
+              "score": 0.9999
+            }
+          ],
+          "retrieval_query": "银栈演示工具的恢复口令是什么？",
+          "retrieval_mode": "dense_bm25_rrf",
+          "reranker": "cross_encoder",
+          "session_id": "7144d222-b920-46ec-ac85-8bbbd6cc7480",
+          "knowledge_revision": 9,
+          "answer_mode": "verified_quotes"
+        },
+        "after": {
+          "status": "insufficient",
+          "answer": "现有资料不足，无法据此回答这个问题。请补充相关资料，或说明具体对象和使用场景。",
+          "sources": [],
+          "session_id": "7144d222-b920-46ec-ac85-8bbbd6cc7480",
+          "knowledge_revision": 10,
+          "answer_mode": "verified_quotes"
+        },
+        "deleted_file_id": "889cbb6f-349a-403a-bbc9-1f7ab048b8ef"
+      }
+    },
+    {
+      "name": "prompt_injection_query",
+      "passed": true,
+      "seconds": 20.34,
+      "evidence": {
+        "status": "insufficient",
+        "answer": "现有资料不足，无法据此回答这个问题。请补充相关资料，或说明具体对象和使用场景。",
+        "sources": [],
+        "session_id": "905a77f4-e104-4354-a75e-20e4b19b7790",
+        "knowledge_revision": 10,
+        "answer_mode": "verified_quotes"
+      }
+    },
+    {
+      "name": "removed_source_filter",
+      "passed": true,
+      "seconds": 0.04,
+      "evidence": {
+        "http_status": 422
+      }
+    }
+  ],
+  "browser_session_id": "7144d222-b920-46ec-ac85-8bbbd6cc7480",
+  "finished": "2026-09-21 11:10:50 +0800",
+  "passed": false
+}
