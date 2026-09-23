@@ -2,7 +2,8 @@
 
 Python + FastAPI 的知识问答助手：dense + BM25 + RRF 混合检索，逐结论证据治理，SQLite 单文件存储，前端为原生 HTML/CSS/JavaScript。
 省略传统FQA答案缓存布尔检索、BM25完整检索，仅展示RAG部分
-·····知识库更新后台+知识问答助手·····
+·····中等复杂非结构化数据的RAG问答架构·····
+<img width="10440" height="5090" alt="架构" src="https://github.com/user-attachments/assets/b33f286c-1e95-4c66-922c-47431c2bce77" />
 
 ## 技术栈
 
